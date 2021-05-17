@@ -1,4 +1,4 @@
-import numpay as np
+import numpy as np
 import cv2
 
 #Read opencv.png logo file from local
