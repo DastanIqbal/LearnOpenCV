@@ -10,7 +10,7 @@
 #### Table of Contents
 #####
 - [x] 1. [Setup OpenCV and Python on MacOS](https://dastaniqbal.github.io/blog/2021-05-15-opencv-series-installing-python-and-opencv-on-mac/)
-- [ ] 2. [Get Started with OpenCV and Python]
+- [x] 2. [Get Started with OpenCV and Python](https://dastaniqbal.github.io/blog/2021-05-17-opencv-series-2-get-started-with-opencv-and-python/)
 - [ ] 3. [Understand pixel data, color channels and data types]
 - [ ] 4. [Image Operations Blur,Dilation,Erosion, Scale and Rotation]
 - [ ] 5. [Video Inputs]
