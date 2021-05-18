@@ -2,7 +2,7 @@ import numpy as np
 import cv2
 
 #Read opencv.png logo file from local
-img = cv2.imread("opencv.png") 
+img = cv2.imread("./../res/opencv.png") 
 
 #Create Window
 cv2.namedWindow("Logo",cv2.WINDOW_NORMAL)
