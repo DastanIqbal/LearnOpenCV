@@ -1,7 +1,7 @@
 import numpy as np
 import cv2
 
-img = cv2.imread("./../res/opencv-logo.png", 1)  # 1 is a color channel BGR
+img = cv2.imread("../res/opencv.png", 1)  # 1 BGR is a default color value of image
 
 print("*****Show image color(BGR) channel One data*****")
 print(img)  # Print image data in array and type
