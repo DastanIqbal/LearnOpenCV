@@ -11,7 +11,7 @@
 #####
 - [x] 1. [Setup OpenCV and Python on MacOS](https://dastaniqbal.github.io/blog/2021-05-15-opencv-series-installing-python-and-opencv-on-mac/)
 - [x] 2. [Get Started with OpenCV and Python](https://dastaniqbal.github.io/blog/2021-05-17-opencv-series-2-get-started-with-opencv-and-python/)
-- [x] 3. [Numpy Data Structures]
+- [x] 3. [Numpy Data Structures](https://dastaniqbal.github.io/blog/2021-05-20-opencv-series-4-numpy-data-structures/)
 - [ ] 4. [Understand pixel data, color channels and data types]
 - [ ] 5. [Image Operations Blur,Dilation,Erosion, Scale and Rotation]
 - [ ] 6. [Video Inputs]
