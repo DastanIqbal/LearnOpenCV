@@ -1,6 +1,6 @@
 import cv2
 
-color = cv2.imread("./../res/opencv.png", 1)
+color = cv2.imread("../../../../res/opencv.png", 1)
 gray = cv2.cvtColor(color, cv2.COLOR_RGB2GRAY)
 cv2.imwrite("gray.jpg", gray)
 

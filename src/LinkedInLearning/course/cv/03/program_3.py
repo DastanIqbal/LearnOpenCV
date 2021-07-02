@@ -6,7 +6,7 @@ Segmentation Technique
 Skin Detection
 """
 
-img = cv2.imread("./../res/faces.jpeg", cv2.IMREAD_COLOR)
+img = cv2.imread("../../../../res/faces.jpeg", cv2.IMREAD_COLOR)
 hsv = cv2.cvtColor(img, cv2.COLOR_BGR2HSV)
 
 h = hsv[:, :, 0]

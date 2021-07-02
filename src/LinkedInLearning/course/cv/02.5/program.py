@@ -1,7 +1,7 @@
 import cv2
 import numpy as np
 
-image = cv2.imread("./../res/opencv.png", 1)
+image = cv2.imread("../../../../res/opencv.png", 1)
 cv2.imshow("Original", image)
 
 blur = cv2.GaussianBlur(image, (5, 55), 0)

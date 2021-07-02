@@ -4,7 +4,7 @@ import cv2
 Contour Object Detection
 """
 
-img = cv2.imread("./../res/detect_blob.png", cv2.IMREAD_COLOR)
+img = cv2.imread("../../../../res/detect_blob.png", cv2.IMREAD_COLOR)
 gray = cv2.cvtColor(img, cv2.COLOR_RGB2GRAY)
 thresh = cv2.adaptiveThreshold(gray, 255, cv2.ADAPTIVE_THRESH_GAUSSIAN_C, cv2.THRESH_BINARY, 115, 1)
 cv2.imshow("Binary", thresh)

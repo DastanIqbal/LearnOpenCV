@@ -1,6 +1,6 @@
 import cv2
 
-img = cv2.imread("./../res/faces.jpeg", cv2.IMREAD_COLOR)
+img = cv2.imread("../../../../res/faces.jpeg", cv2.IMREAD_COLOR)
 gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
 
 face_classifier = cv2.CascadeClassifier("haarcascade_frontalface_default.xml")

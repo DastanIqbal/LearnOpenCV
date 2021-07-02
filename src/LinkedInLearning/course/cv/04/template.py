@@ -1,7 +1,7 @@
 import cv2
 
-template = cv2.imread("./../res/template.jpg", cv2.IMREAD_GRAYSCALE)
-frame = cv2.imread("./../res/players.jpg", cv2.IMREAD_GRAYSCALE)
+template = cv2.imread("../../../../res/template.jpg", cv2.IMREAD_GRAYSCALE)
+frame = cv2.imread("../../../../res/players.jpg", cv2.IMREAD_GRAYSCALE)
 
 cv2.imshow("Template", template)
 cv2.imshow("Frame", frame)

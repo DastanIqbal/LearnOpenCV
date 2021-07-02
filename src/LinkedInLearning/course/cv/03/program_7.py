@@ -7,7 +7,7 @@ import numpy as np
 Canny Edge Detection (Overlap detection)
 """
 
-img = cv2.imread("./../res/fuzzy.png", cv2.IMREAD_COLOR)
+img = cv2.imread("../../../../res/fuzzy.png", cv2.IMREAD_COLOR)
 cv2.imshow("Original", img)
 
 gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
