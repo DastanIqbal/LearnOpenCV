@@ -1,7 +1,7 @@
 import cv2
 import numpy as np
 
-color = cv2.imread("./../res/opencv.png", 1)
+color = cv2.imread("../../../../res/opencv.png", 1)
 cv2.imshow("Image", color)
 cv2.moveWindow("Image", 0, 0)
 

@@ -5,7 +5,7 @@ Segmentation Technique
 Adaptive Thresholding
 """
 
-img = cv2.imread("./../res/sudoku.png", cv2.IMREAD_GRAYSCALE)
+img = cv2.imread("../../../../res/sudoku.png", cv2.IMREAD_GRAYSCALE)
 cv2.imshow("Original", img)
 
 # Simple Thresholding

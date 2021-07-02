@@ -1,6 +1,6 @@
 import cv2
 
-image = cv2.imread("./../res/opencv.png", 1)
+image = cv2.imread("../../../../res/opencv.png", 1)
 
 # Scale
 img_half = cv2.resize(image, (0, 0), fx=0.5, fy=0.5)

@@ -6,7 +6,7 @@ Segmentation Technique
 Simple Thresholding
 """
 
-bw = cv2.imread("./../res/detect_blob.png", cv2.IMREAD_GRAYSCALE)
+bw = cv2.imread("../../../../res/detect_blob.png", cv2.IMREAD_GRAYSCALE)
 print(bw.shape)
 height, width = bw.shape[0:2]
 cv2.imshow("Original BW", bw)
