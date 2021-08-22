@@ -51,5 +51,5 @@ cv2.imshow("Masked Sunglass", faceWithSunglassAirthmetic)
 faceWithSunglassAirthmetic[topLeft:bottomLeft, topRight:bottomRight] = eyeMasked
 cv2.imshow("Masked Sunglass Eye visibility", faceWithSunglassAirthmetic)
 
-cv2.waitKey(0)
+cv2.waitKey()
 cv2.destroyAllWindows()
