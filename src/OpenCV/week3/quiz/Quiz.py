@@ -2,7 +2,7 @@ import cv2
 import matplotlib.pyplot as plt
 import numpy as np
 
-DATA_PATH = "/Users/admin/Iqbal/Study/OpenCV/LearnOpenCV/src/res/opencv-courses/"
+DATA_PATH = "/src/res/opencv-courses/"
 
 # im = cv2.imread(DATA_PATH+"images/opening.png",cv2.IMREAD_GRAYSCALE)
 # cv2.imshow("Q1",im)
