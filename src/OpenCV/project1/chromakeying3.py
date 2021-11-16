@@ -1,5 +1,9 @@
+"""
+Output is good, with all features
+"""
 import cv2
 import numpy as np
+
 
 def setColor(action, x, y, flags, userdata):
     global points
@@ -10,8 +14,9 @@ def setColor(action, x, y, flags, userdata):
 
     if action == cv2.EVENT_LBUTTONDOWN and isColor == False:
         isColor = True
-        points = (x,y)
-        pixelColorHSV = tuple(frameHSV[y,x,:])
+        points = (x, y)
+        pixelColorHSV = tuple(frameHSV[y, x, :])
+        print(f"PixelColor HSV {pixelColorHSV}")
 
         newImage = removeBackground()
         newImage = addAnnotation(newImage)
@@ -30,66 +35,75 @@ def removeBackground():
     # modify brightness of green channel (Defringe)
 
     # split BGR channels
-    B,G,R = cv2.split(frame)
+    B, G, R = cv2.split(frame)
 
     # change brightness in green channel
-    brightnessOffset = 2*trackDefringe - 100
-    gModified = np.uint8(np.clip((np.int32(G) + np.ones_like(G, dtype="int32")*brightnessOffset), 0, 255))
+    brightnessOffset = 2 * trackDefringe - 100
+    gModified = np.uint8(np.clip((np.int32(G) + np.ones_like(G, dtype="int32") * brightnessOffset), 0, 255))
+    # cv2.imshow("Modified Green", gModified)
 
     # merge modified frame
-    frameModified = cv2.merge((B,gModified,R))
+    frameModified = cv2.merge((B, gModified, R))
+    # cv2.imshow("Modified G Frame", frameModified)
 
     # convert modified frame to HSV color space
     frameModifiedHSV = cv2.cvtColor(frameModified, cv2.COLOR_BGR2HSV)
 
     # split HSV channels
-    h,s,v = cv2.split(frameHSV)
-    hMod,sMod,vMod = cv2.split(frameModifiedHSV)
+    h, s, v = cv2.split(frameHSV)
+    hMod, sMod, vMod = cv2.split(frameModifiedHSV)
 
     # remove color background in the Hue channel (Tolerance)
 
     # select color ranges
     colorValue = pixelColorHSV[0]
-    upperH = np.array(np.clip(colorValue +  trackTolerance, 0, 180), dtype="uint8")
+    upperH = np.array(np.clip(colorValue + trackTolerance, 0, 180), dtype="uint8")
     lowerH = np.array(np.clip(colorValue - trackTolerance, 0, 180), dtype="uint8")
+    print(f"Lower Range {lowerH}")
+    print(f"Upper Range {upperH}")
+    print(f"Hue Modified {hMod.shape}")
 
     mask = cv2.inRange(hMod, lowerH, upperH)
-
+    # cv2.imshow("Mask for Frame", frameModified)
     # invert color mask
-    mask = 255-mask
+    mask = 255 - mask
+    # cv2.imshow("Mask for Frame - 255", mask)
 
     # blur the mask (Softness)
-
     if trackSoftness > 0:
-        maskBlur = cv2.blur(mask, (10*trackSoftness,10*trackSoftness), (-1,-1))
-        maskBlur = np.uint8(np.round((maskBlur/255.0)*(mask/255.0)*255))
+        maskBlur = cv2.blur(mask, (10 * trackSoftness, 10 * trackSoftness), (-1, -1))
+        maskBlur = np.uint8(np.round((maskBlur / 255.0) * (mask / 255.0) * 255))
     else:
         maskBlur = mask
 
     # apply mask to Value channel
-    newV = np.uint8(np.round((v/255.0*maskBlur/255.0)*255))
+    newV = np.uint8(np.round((v / 255.0) * (maskBlur / 255.0) * 255))
 
     # merge image without background
-    imageWithoutBg = cv2.merge((h,s,newV))
+    imageWithoutBg = cv2.merge((h, s, newV))
+    # cv2.imshow("ImageWithoutBg-HSV", imageWithoutBg)
 
     # convert to BGR for displaying
     imageWithoutBg = cv2.cvtColor(imageWithoutBg, cv2.COLOR_HSV2BGR)
+    # cv2.imshow("ImageWithoutBg-BGR", imageWithoutBg)
 
     # Add background
-
     # check if trackbar for background is activated
-    if isBackground == True:
+    if isBackground:
 
         # invert mask
+        # cv2.imshow("Mask for BG", mask)
         maskInv = 255 - mask
+        # cv2.imshow("Mask for BG - 255", maskInv)
 
         # create mask with 3 channels
         maskInv3Ch = np.ones_like(bg)
+
         for i in range(3):
-            maskInv3Ch[:,:,i] = maskInv
+            maskInv3Ch[:, :, i] = maskInv
 
         # apply inverted mask to background
-        bgCut = np.uint8(np.round((bg/255.0)*(maskInv3Ch/255.0)*255))
+        bgCut = np.uint8(np.round((bg / 255.0) * (maskInv3Ch / 255.0) * 255))
 
         # combine background and image
         imageWithNewBg = cv2.add(imageWithoutBg, bgCut)
@@ -110,7 +124,7 @@ def getTolerance(*args):
 
     trackTolerance = cv2.getTrackbarPos("Tolerance", windowName)
 
-    if isColor == True:
+    if isColor:
         newImage = removeBackground()
         newImage = addAnnotation(newImage)
         cv2.imshow(windowName, newImage)
@@ -123,7 +137,7 @@ def getSoftness(*args):
 
     trackSoftness = cv2.getTrackbarPos("Softness", windowName)
 
-    if isColor == True:
+    if isColor:
         newImage = removeBackground()
         newImage = addAnnotation(newImage)
         cv2.imshow(windowName, newImage)
@@ -136,7 +150,7 @@ def getDefringe(*args):
 
     trackDefringe = cv2.getTrackbarPos("Defringe", windowName)
 
-    if isColor == True:
+    if isColor:
         newImage = removeBackground()
         newImage = addAnnotation(newImage)
         cv2.imshow(windowName, newImage)
@@ -147,15 +161,16 @@ def updateFrame(*args):
     global frameHSV
 
     framePos = cv2.getTrackbarPos("Frame", windowName)
-    ret = cap.set(cv2.CAP_PROP_POS_FRAMES,framePos)
+    ret = cap.set(cv2.CAP_PROP_POS_FRAMES, framePos)
 
     # read frame
     ret, frame = cap.read()
 
     # convert frame to HSV color space
     frameHSV = cv2.cvtColor(frame, cv2.COLOR_BGR2HSV)
+    print(f"Frame HSV Color in updateFrame")
 
-    if isColor == True:
+    if isColor:
         newImage = removeBackground()
     else:
         newImage = frame
@@ -171,7 +186,7 @@ def activateBackground(*args):
 
     trackBg = cv2.getTrackbarPos("Background", windowName)
 
-    if isColor == True:
+    if isColor:
         if trackBg == 0:
             isBackground = False
         else:
@@ -182,40 +197,36 @@ def activateBackground(*args):
 
 
 def addAnnotation(image):
-
     # annotations
     imageCopied = image.copy()  # frame for displaying
-    cv2.putText(imageCopied, "Click to remove green scene", (10, 50), cv2.FONT_HERSHEY_SIMPLEX, 1.5, (255,255,255), 4)
-    cv2.putText(imageCopied, "esc: exit", (10, 90), cv2.FONT_HERSHEY_SIMPLEX, 1.5, (255,255,255), 4)
-    cv2.putText(imageCopied, "s: save video", (10, 130), cv2.FONT_HERSHEY_SIMPLEX, 1.5, (255,255,255), 4)
+    cv2.putText(imageCopied, "Click to remove green scene", (10, 50), cv2.FONT_HERSHEY_SIMPLEX, 1.5, (255, 255, 255), 4)
+    cv2.putText(imageCopied, "esc: exit", (10, 90), cv2.FONT_HERSHEY_SIMPLEX, 1.5, (255, 255, 255), 4)
+    cv2.putText(imageCopied, "s: save video", (10, 130), cv2.FONT_HERSHEY_SIMPLEX, 1.5, (255, 255, 255), 4)
 
     return imageCopied
 
 
 def addAnnotationWriter(image):
-
     # annotations
     imageCopied = image.copy()  # frame for displaying
-    cv2.putText(imageCopied, "VideoWriter running...", (10, 50), cv2.FONT_HERSHEY_SIMPLEX, 1.5, (255,255,255), 4)
-    cv2.putText(imageCopied, "a: abort", (10, 90), cv2.FONT_HERSHEY_SIMPLEX, 1.5, (255,255,255), 4)
+    cv2.putText(imageCopied, "VideoWriter running...", (10, 50), cv2.FONT_HERSHEY_SIMPLEX, 1.5, (255, 255, 255), 4)
+    cv2.putText(imageCopied, "a: abort", (10, 90), cv2.FONT_HERSHEY_SIMPLEX, 1.5, (255, 255, 255), 4)
 
     return imageCopied
 
 
 def addAnnotationAborted(image):
-
     # annotations
     imageCopied = image.copy()  # frame for displaying
-    cv2.putText(imageCopied, "a: VideoWriter aborted", (10, 90), cv2.FONT_HERSHEY_SIMPLEX, 1.5, (255,255,255), 4)
+    cv2.putText(imageCopied, "a: VideoWriter aborted", (10, 90), cv2.FONT_HERSHEY_SIMPLEX, 1.5, (255, 255, 255), 4)
 
     return imageCopied
 
 
 def addAnnotationFinished(image):
-
     # annotations
     imageCopied = image.copy()  # frame for displaying
-    cv2.putText(imageCopied, "VideoWriter finished", (10, 90), cv2.FONT_HERSHEY_SIMPLEX, 1.5, (255,255,255), 4)
+    cv2.putText(imageCopied, "VideoWriter finished", (10, 90), cv2.FONT_HERSHEY_SIMPLEX, 1.5, (255, 255, 255), 4)
 
     return imageCopied
 
@@ -228,16 +239,16 @@ trackTolerance = 0
 trackSoftness = 0
 trackDefringe = 50
 isColor = False
-isBackground = False
+isBackground = True
 
 # read video
 cap = cv2.VideoCapture("greenscreen-asteroid.mp4")
 
 # check for video
-if (cap.isOpened() == False):
+if not cap.isOpened():
     print("Error opening video!")
 else:
-    print("Video loaded succesfully!")
+    print("Video loaded successfully!")
 
 # read background
 bg = cv2.imread("space.jpeg", cv2.IMREAD_COLOR)
@@ -248,13 +259,18 @@ if bg is None:
 else:
     print("Background loaded succesfully!")
 
+print(f"Background Shape: {bg.shape}")
+
 # read frame
-ret, frame = cap.read()     # frame for procesing
+ret, frame = cap.read()  # frame for procesing
+print(f"Frame Shape: {frame.shape}")
+
 frameCopied = addAnnotation(frame)
 
 # get number of frames
 minCapNumber = 0
 maxCapNumber = int(cap.get(cv2.CAP_PROP_FRAME_COUNT)) - 1
+print(f"MaxCapNumber: {maxCapNumber}")
 
 # get frame height and width
 frameHeight, frameWidth = frame.shape[:2]
@@ -267,16 +283,17 @@ cv2.resizeWindow(windowName, frameWidth, frameHeight)
 
 # convert frame to HSV color space
 frameHSV = cv2.cvtColor(frame, cv2.COLOR_BGR2HSV)
+print(f"Frame HSV Color in Init")
 
 # mouse callback to select color
 cv2.setMouseCallback(windowName, setColor)
 
 # trackbars for: tolerance, softness and defringe
-cv2.createTrackbar("Frame", windowName, minCapNumber, maxCapNumber, updateFrame)
-cv2.createTrackbar("Tolerance",windowName, 0, 100, getTolerance)
-cv2.createTrackbar("Softness",windowName, 0, 100, getSoftness)
-cv2.createTrackbar("Defringe",windowName, 50, 100, getDefringe)
-cv2.createTrackbar("Background",windowName, 0, 1, activateBackground)
+# cv2.createTrackbar("Frame", windowName, minCapNumber, maxCapNumber, updateFrame)
+cv2.createTrackbar("Tolerance", windowName, 0, 100, getTolerance)
+cv2.createTrackbar("Softness", windowName, 0, 100, getSoftness)
+cv2.createTrackbar("Defringe", windowName, 50, 100, getDefringe)
+# cv2.createTrackbar("Background", windowName, 0, 1, activateBackground)
 
 # wait for keyboard
 k = 0
@@ -291,16 +308,18 @@ while k != 27:
         frame_width = int(cap.get(cv2.CAP_PROP_FRAME_WIDTH))
         frame_height = int(cap.get(cv2.CAP_PROP_FRAME_HEIGHT))
         numberFrames = int(cap.get(cv2.CAP_PROP_FRAME_COUNT))
-        ret = cap.set(cv2.CAP_PROP_POS_FRAMES,0)
-        out = cv2.VideoWriter("newVideo.mp4", cv2.VideoWriter_fourcc('M','J','P','G'), fps, (frame_width,frame_height))
+        ret = cap.set(cv2.CAP_PROP_POS_FRAMES, 0)
+        out = cv2.VideoWriter("newVideo.mp4", cv2.VideoWriter_fourcc('M', 'J', 'P', 'G'), fps,
+                              (frame_width, frame_height))
 
         print("VideoWriter started")
 
-        while(cap.isOpened()):
-            #capture frame-by-frame
+        while cap.isOpened():
+            # capture frame-by-frame
             ret, frame = cap.read()
-            if ret == True:
+            if ret:
                 frameHSV = cv2.cvtColor(frame, cv2.COLOR_BGR2HSV)
+                print(f"Frame HSV Color in while")
                 frameBg = removeBackground()
                 # write the frame into the file
                 out.write(frameBg)
@@ -322,7 +341,6 @@ while k != 27:
         cv2.imshow(windowName, frameBg)
         print("VideoWriter finished")
         out.release()
-
 
 # close program
 cap.release()
