@@ -2,10 +2,12 @@
 import cv2 as cv
 import numpy as np
 
+from dataPath import DATA_PATH
+
 width = 1280
 height = 720
 windowName = "ChromaKeying"
-videoFile = "greenscreen-asteroid.mp4"
+videoFile = DATA_PATH + "videos/greenscreen-asteroid.mp4"
 
 tolerance = 0
 softness = 0
@@ -90,7 +92,7 @@ def processChromeKeying():
     H, S, V = cv.split(frameHSV)
     hMod, sMod, vMod = cv.split(frameModHSV)
 
-    # Step : Adjust tolerance level in HSV
+    # Step : Adjust tolerance level in H
     lowerH = np.array(np.clip(hsvColorValue[0] - tolerance, 0, 180))
     upperH = np.array(np.clip(hsvColorValue[0] + tolerance, 0, 180))
 
