@@ -127,3 +127,6 @@ dmypy.json
 
 # Pyre type checker
 .pyre/
+.DS_STORE
+src/OpenCV/dlap/common/
+src/OpenCV/dlap/week1-pyton/
