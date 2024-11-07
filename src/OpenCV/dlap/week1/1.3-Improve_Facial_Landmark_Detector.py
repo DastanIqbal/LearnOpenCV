@@ -62,10 +62,14 @@ while True:
         shape = predictor(imDlib, newRect)
         renderFace(im, shape)
 
+    # Put fps at which we are processinf camera feed on frame
+    cv2.putText(im, "{0:.2f}-fps".format(fps), (50, size[0]-50), cv2.FONT_HERSHEY_COMPLEX, 1.5, (0, 0, 255), 3)
+    # Display it all on the screen
     cv2.imshow("Fast Facial Landmark Detection", im)
-
+    # Wait for keypress
     key = cv2.waitKey(1) & 0xFF
 
+    # Stop the program.
     if key == 27:
         sys.exit()
     
