@@ -129,4 +129,4 @@ dmypy.json
 .pyre/
 .DS_STORE
 src/OpenCV/dlap/common/
-src/OpenCV/dlap/week1-pyton/
+src/OpenCV/dlap/week2-python/
