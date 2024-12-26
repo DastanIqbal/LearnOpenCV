@@ -1,4 +1,4 @@
-import sys
+import sys,os
 import cv2
 import dlib
 import math
@@ -305,5 +305,5 @@ try:
     cv2.destroyAllWindows()
 
 except Exception as e:
-  #print(e)
+  print(e)
   pass
