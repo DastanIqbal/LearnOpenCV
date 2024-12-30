@@ -1,15 +1,3 @@
-# Copyright 2017 BIG VISION LLC ALL RIGHTS RESERVED
-#
-# This code is made available to the students of
-# the online course titled "Computer Vision for Faces"
-# by Satya Mallick for personal non-commercial use.
-#
-# Sharing this code is strictly prohibited without written
-# permission from Big Vision LLC.
-#
-# For licensing and other inquiries, please email
-# spmallick@bigvisionllc.com
-#
 import cv2
 import dlib
 import numpy as np
@@ -56,12 +44,12 @@ def similarityTransform(inPoints, outPoints):
   xin = c60*(inPts[0][0] - inPts[1][0]) - s60*(inPts[0][1] - inPts[1][1]) + inPts[1][0]
   yin = s60*(inPts[0][0] - inPts[1][0]) + c60*(inPts[0][1] - inPts[1][1]) + inPts[1][1]
 
-  inPts.append([np.intc(xin), np.intc(yin)])
+  inPts.append([np.int32(xin), np.int32(yin)])
 
   xout = c60*(outPts[0][0] - outPts[1][0]) - s60*(outPts[0][1] - outPts[1][1]) + outPts[1][0]
   yout = s60*(outPts[0][0] - outPts[1][0]) + c60*(outPts[0][1] - outPts[1][1]) + outPts[1][1]
 
-  outPts.append([np.int(xout), np.int(yout)])
+  outPts.append([np.int32(xout), np.int32(yout)])
 
   # Now we can use estimateRigidTransform for calculating the similarity transform.
   tform = cv2.estimateRigidTransform(np.array([inPts]), np.array([outPts]), False)
@@ -76,17 +64,11 @@ def normalizeImagesAndLandmarks(outSize, imIn, pointsIn):
   h, w = outSize
 
   # Corners of the eye in input image
-    eyecornerSrc = [pointsIn[36], pointsIn[45]]
-    eyecornerSrc = [pointsIn[36], pointsIn[45]]
-  elif len(pointsIn) == 5:
-    eyecornerSrc = [pointsIn[2], pointsIn[0]]
   eyecornerSrc = [pointsIn[36], pointsIn[45]]
-  elif len(pointsIn) == 5:
-    eyecornerSrc = [pointsIn[2], pointsIn[0]]
 
   # Corners of the eye in normalized image
-  eyecornerDst = [(np.int(0.3 * w), np.int(h/3)),
-                  (np.int(0.7 * w), np.int(h/3))]
+  eyecornerDst = [(np.int32(0.3 * w), np.int32(h/3)),
+                  (np.int32(0.7 * w), np.int32(h/3))]
 
   # Calculate similarity transform
   tform = similarityTransform(eyecornerSrc, eyecornerDst)
