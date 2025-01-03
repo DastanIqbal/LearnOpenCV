@@ -21,3 +21,5 @@ dependencyResolutionManagement {
 
 rootProject.name = "OpenCV"
 include(":app")
+//include(":core")
+//project("OpenCV-android-sdk").projectDir = file("../OpenCV-android-sdk/build.gradle.kts")
