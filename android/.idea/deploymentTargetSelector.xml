@@ -1,18 +1,3 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<project version="4">
-  <component name="deploymentTargetSelector">
-    <selectionStates>
-      <SelectionState runConfigName="app">
-        <option name="selectionMode" value="DROPDOWN" />
-        <DropdownSelection timestamp="2024-12-28T16:46:51.352564Z">
-          <Target type="DEFAULT_BOOT">
-            <handle>
-              <DeviceId pluginId="LocalEmulator" identifier="path=/Users/iqbal/.android/avd/Resizable_Experimental.avd" />
-            </handle>
-          </Target>
-        </DropdownSelection>
-        <DialogSelection />
-      </SelectionState>
-    </selectionStates>
-  </component>
-</project>
+version https://git-lfs.github.com/spec/v1
+oid sha256:d98788adb8a5cb736380debe0dd9b3f493c4a273db0b531b21de080b3bf01558
+size 651

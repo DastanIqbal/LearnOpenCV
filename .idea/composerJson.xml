@@ -1,10 +1,3 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<project version="4">
-  <component name="ComposerJsonPluginSettings">
-    <unboundedVersionInspectionSettings>
-      <excludedPackages />
-    </unboundedVersionInspectionSettings>
-    <customRepositories />
-    <composerUpdateOptions />
-  </component>
-</project>
+version https://git-lfs.github.com/spec/v1
+oid sha256:36d7ff636307bc633e2820a355e04251cc04af19b4324b79a24a569f23174d39
+size 301
