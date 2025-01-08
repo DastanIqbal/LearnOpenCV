@@ -25,3 +25,8 @@
 - [ ] 14. [Face Detection: Algorithm: Haar Cascading]
 - [ ] 15. [Face Detection: Eye Detection]
 ---
+---
+#### Projects
+#####
+- [ ] 1. [Virtual Makeup: Lipstick Effect using OpenCV and Dlib](https://dastaniqbal.github.io/blog/2025-01-08-virtual-maekup-lipstick-filter-using-opencv-and-dlib/)
+- [ ] 2. [Virtual Makeup: Eyeliner Effect using OpenCV and Dlib](https://dastaniqbal.github.io/blog/2025-01-08-virtual-makeup-eyeliner-effect-using-opencv-and-dlib/)
